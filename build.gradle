@@ -20,7 +20,8 @@ apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
-apply plugin: "org.sonarqube"
+apply plugin:"org.sonarqube"
+apply plugin:"codenarc"
 
 repositories {
     mavenLocal()
@@ -82,7 +83,15 @@ assets {
 }
 
 sonarqube {
-   properties {
+    properties {
         property "sonar.host.url", "http://localhost:9000"
-   }
+        property "sonar.groovy.codenarc.reportPath", "build/reports/codenarc/main.xml"   
+    }
+}
+
+codenarc {
+    toolVersion = '0.25.2'
+    configFile = file("${rootProject.projectDir}/config/codenarc/rules.groovy") 
+    reportFormat = 'xml' 
+    ignoreFailures = true 
 }
